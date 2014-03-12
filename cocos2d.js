@@ -14,7 +14,8 @@
         appFiles:[
             'src/GameLayer.js',
 			'src/Player.js',
-			'src/resource.js'
+			'src/resource.js',
+			'src/Platform.js'
         ]
     };
 

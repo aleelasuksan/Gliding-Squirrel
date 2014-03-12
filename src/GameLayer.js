@@ -5,6 +5,12 @@ var GameLayer = cc.LayerColor.extend({
 		this.player = new Player( 400, 100 );
 		this.addChild(this.player);
 		this.player.scheduleUpdate();
+		this.platform1 = new Platform();
+		this.platform1.setPosition( cc.p( 400, 300 ) );
+		this.addChild(this.platform1);
+		this.platform2 = new Platform();
+		this.platform2.setPosition( cc.p( 400, 50 ) );
+		this.addChild(this.platform2);
 		console.log('finish init gamelayer');
 		this.setKeyboardEnabled( true );
 		//this.scheduleUpdate();
@@ -12,9 +18,11 @@ var GameLayer = cc.LayerColor.extend({
     },
 	
 	onKeyDown: function( e ) {
-		if( ( e == cc.KEY.up || e == cc.KEY.space ) && !this.player.isJump ) {
-			this.player.jump();
-		}
+		this.player.handleKeyDown( e );
+	},
+	
+	onKeyUp: function( e ) {
+		this.player.handleKeyUp( e );
 	}
 });
 

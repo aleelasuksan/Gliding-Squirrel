@@ -5,24 +5,67 @@ var Player = cc.Sprite.extend({
 		this.setAnchorPoint( cc.p( 0.5, 0.5 ) );
 		this.x = x;
 		this.y = y;
-		this.v = 30;
+		this.vJump = 30;
 		this.g = -1;
-		this.isJump = false;
+		
+		this.vy = 0;
+		
+		this.jump = false;
+		
+		this.platform = null;
+		
 		this.updatePosition();
 		console.log('init player');
 	},
 	
 	update: function( dt ) {
-		if(this.isJump) {
-			console.log('jump');
-			this.y += this.v;
-			this.updatePosition();
-			this.v += this.g;
+		var oldRect = this.getBoundingBoxToWorld();
+		
+		this.updateMovement();
+		
+		var dY = this.y - oldRect.y;
+		
+		var newRect = cc.rect( oldRect.x,
+								oldRect.y + dY - 1,
+								oldRect.width,
+								oldRect.height + 1 );
+		
+		this.handleCollision( oldRect, newRect );
+		
+		this.updatePosition();
+	},
+	
+	handleCollision: function( oldRect, newRect ) {
+		if( this.ground == null ) {
+			if( this.vy <= 0 ) {
+				
+			}
 		}
 	},
 	
-	jump: function() {
-		this.isJump = true;
+	updateMovement: function() {
+		if( this.ground ) {
+			this.vy = 0;
+			if( this.jump ) {
+				console.log('jump');
+				this.vy = this.vJump;
+				this.y += this.vy;
+				this.ground = null;
+			}
+		} else {
+			this.vy += this.g;
+			this.y += this.vy;
+		}
+	},
+	
+	handleKeyDown: function( e ) {
+		if( e == cc.KEY.space || e == cc.KEY.UP ) {
+			jump = true;
+		}
+	},
+	
+	handleKeyUp: function( e ) {
+	
 	},
 	
 	updatePosition: function() {
