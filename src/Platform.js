@@ -8,9 +8,9 @@ var Platform = cc.Sprite.extend({
 	
 	hitTop: function( oldRect, newRect ) {
 		var blockRect = this.getBoundingBoxToWorld();
-		if( cc.rectGetMidY( oldRect ) >= cc.rectGetMidY( blockRect ) ) {
-			var uRect = cc.rectUnion( oldRect, newRect );
-			return cc.rectIntersectsRect( uRect, blockRect );
+		if( cc.rectGetMidY( oldRect ) >= cc.rectGetMaxY( blockRect ) ) {
+			var unionRect = cc.rectUnion( oldRect, newRect );
+			return cc.rectIntersectsRect( unionRect, blockRect );
 		}
 		return false;
 	},

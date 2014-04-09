@@ -7,7 +7,7 @@ var GameLayer = cc.LayerColor.extend({
 		this.player.scheduleUpdate();
 		
 		this.blocks = [];
-		this.platform1 = new Platform( 400, 300);
+		this.platform1 = new Platform( 400, 300 );
 		//this.platform1.setPosition( cc.p( 400, 300 ) );
 		this.blocks.push( this.platform1 );
 		this.addChild(this.platform1);

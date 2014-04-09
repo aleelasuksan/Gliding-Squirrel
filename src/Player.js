@@ -1,7 +1,7 @@
 var Player = cc.Sprite.extend({
 	ctor: function( x, y ) {
 		this._super();
-		this.initWithFile( 'res/images/player.png', cc.rect( 0, 0, 40, 40) );
+		this.initWithFile( 'res/images/player.png', cc.rect( 0, 0, 42, 52) );
 		this.setAnchorPoint( cc.p( 0.5, 0.5 ) );
 		this.x = x;
 		this.y = y;
@@ -42,7 +42,7 @@ var Player = cc.Sprite.extend({
 				var topBlock = this.findGround( this.blocks, oldRect, newRect );
 				if( topBlock ) {
 					this.ground = topBlock;
-					this.y = topBlock.getTopY()+20;
+					this.y = topBlock.getTopY() + ( oldRect.height / 2 );
 					this.vy = 0;
 					this.jump = false;
 				}
