@@ -16,6 +16,8 @@ var GameLayer = cc.LayerColor.extend({
 		this.blocks.push( this.platform2 );
 		this.addChild(this.platform2);
 		
+		this.platform1.setVelocity(2);
+		
 		this.player.setBlocks( this.blocks );
 		
 		this.setKeyboardEnabled( true );

@@ -1,5 +1,6 @@
 var SPRITE_WIDTH = 60;
 var SPRITE_HEIGHT = 20;
+var SCREEN_WIDTH = 800;
 
 var Platform = cc.Sprite.extend({
     ctor: function( x, y ) {
@@ -11,13 +12,14 @@ var Platform = cc.Sprite.extend({
 		this.x = x;
 		this.y = y;
 		
-		this.vx = 0;
-		this.velocity = 10;
+		this.right = true;
+		this.velocity = 0;
+		this.scheduleUpdate();
     },
 	
 	hitTop: function( oldRect, newRect ) {
 		var blockRect = this.getBoundingBoxToWorld();
-		if( cc.rectGetMidY( oldRect ) >= cc.rectGetMaxY( blockRect ) ) {
+		if( cc.rectGetMinY( oldRect ) >= cc.rectGetMaxY( blockRect ) ) {
 			var unionRect = cc.rectUnion( oldRect, newRect );
 			return cc.rectIntersectsRect( unionRect, blockRect );
 		}
@@ -25,10 +27,30 @@ var Platform = cc.Sprite.extend({
 	},
 	
 	update: function( dt ) {
-		
+		this.updateMovement();
+		this.updateSpritePosition();
 	},
 	
 	getTopY: function() {
 		return cc.rectGetMaxY( this.getBoundingBoxToWorld() );
+	},
+	
+	updateSpritePosition: function() {
+		this.setPosition( cc.p( this.x, this.y ) );
+	},
+	
+	updateMovement: function() {
+		if( this.right ) {
+			this.x += this.velocity;
+			if( ( this.x / SCREEN_WIDTH ) > 0.9 ) this.right = false;
+		}
+		else {
+			this.x -= this.velocity;
+			if( ( this.x / SCREEN_WIDTH ) < 0.1 ) this.right = true;
+		}
+	},
+	
+	setVelocity: function( v ) {
+		this.velocity = v;
 	}
 });
