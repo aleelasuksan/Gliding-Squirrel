@@ -115,7 +115,6 @@ var Player = cc.Sprite.extend({
 	
 	handleFalling: function() {
 		this.vy += this.g;
-		//if(this.vy < this.cap ) this.vy = this.cap;
 		this.y += this.vy;
 		this.updateXMovement();
 	},
@@ -124,10 +123,6 @@ var Player = cc.Sprite.extend({
 		if( e == cc.KEY.space || e == cc.KEY.UP ) {
 			this.jump = true;
 		}
-	},
-	
-	handleKeyUp: function( e ) {
-	
 	},
 	
 	setBlocks: function( blocks ) {
@@ -153,9 +148,7 @@ var Player = cc.Sprite.extend({
 		this.setPosition( cc.p( this.x, this.y ) );
 	},
 	
-	isGameover: function() {
-		if( this.x < SCREEN_HEIGHT ) {
-			
-		}
+	isGameOver: function() {
+		return this.y < 0;
 	}
 });

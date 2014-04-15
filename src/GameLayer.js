@@ -2,6 +2,8 @@ var GameLayer = cc.LayerColor.extend({
     init: function() {
         this._super( new cc.Color4B( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
+		
+		
 		this.player = new Player( 400, 200 );
 		this.addChild(this.player);
 		this.player.scheduleUpdate();
@@ -21,7 +23,7 @@ var GameLayer = cc.LayerColor.extend({
 		this.player.setBlocks( this.blocks );
 		
 		this.setKeyboardEnabled( true );
-		//this.scheduleUpdate();
+		this.scheduleUpdate();
         return true;
     },
 	
@@ -29,17 +31,39 @@ var GameLayer = cc.LayerColor.extend({
 		this.player.handleKeyDown( e );
 	},
 	
-	onKeyUp: function( e ) {
-		this.player.handleKeyUp( e );
+	update: function() {
+		if( this.player.isGameOver() ) {
+			this.cleanup();
+			//var gameover = cc.LabelTTF.create( "Game Over", "Tahoma", 20 );
+		}
+	},
+	
+	isOver: function() {
+		return this.player.isGameOver();
 	}
 });
 
 var StartScene = cc.Scene.extend({
     onEnter: function() {
         this._super();
-        var layer = new GameLayer();
-        layer.init();
-        this.addChild( layer );
-    }
+        this.layer = new GameLayer();
+        this.layer.init();
+        this.addChild( this.layer );
+    },
+	
+	onKeyDown: function( event ) {
+		this.restartLayer();
+	},
+	
+	onMouseDown: function( event ) {
+		this.restartLayer();
+	},
+	
+	restartLayer: function() {
+		if( this.layer.isOver() ) {
+			this.layer = new GameLayer();
+			this.layer.init();
+		}
+	}
 });
 
