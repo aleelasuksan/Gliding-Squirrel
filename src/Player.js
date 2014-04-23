@@ -31,8 +31,6 @@ var Player = cc.Sprite.extend({
 	
 		var oldSpriteRect = this.getPlayerRect();
 		
-		this.checkGround( oldSpriteRect );
-		
 		this.updateMovement();
 		
 		var newSpriteRect = this.getPlayerRect();
@@ -68,11 +66,11 @@ var Player = cc.Sprite.extend({
 					this.y = groundBlock.getTopY() + ( oldRect.height / 2 );
 					this.vy = 0;
 					this.jump = false;
+					this.vx = 0;
+					this.right = null;
 				}
 			}
 		}
-		this.vx = 0;
-		this.right = null;
 	},
 	
 	updateMovement: function() {
@@ -93,7 +91,7 @@ var Player = cc.Sprite.extend({
 		if( this.jump ) {
 			this.vy = this.vJump;
 			this.handleXAxis();
-			this.updateXMovement();
+			this.vx/=2;
 			this.y = this.ground.getTopY() + 20 + this.vy;
 			this.ground = null;
 		}
@@ -102,15 +100,19 @@ var Player = cc.Sprite.extend({
 	handleXAxis: function() {
 		if( this.ground ) {
 			this.vx = this.ground.velocity;
-			if( this.ground.right ) this.right = true;
-			else this.right = false;
+			if( this.ground.right == 'right' ) this.right = 'right';
+			else if( this.ground.right == 'left' ) this.right = 'left';
 			this.updateXMovement();
 		}
 	},
 	
 	updateXMovement: function() {
-		if( this.right ) this.x += this.vx;
-		else if( this.right != null ) this.x -= this.vx;
+		if( this.right == 'right' ) {
+			this.x += this.vx;
+		}
+		else if( this.right == 'left' ) {
+			this.x -= this.vx;
+		}
 	},
 	
 	handleFalling: function() {

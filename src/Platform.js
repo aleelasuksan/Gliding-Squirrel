@@ -12,7 +12,7 @@ var Platform = cc.Sprite.extend({
 		this.x = x;
 		this.y = y;
 		
-		this.right = true;
+		this.right = null;
 		this.velocity = 0;
 		this.scheduleUpdate();
     },
@@ -40,14 +40,22 @@ var Platform = cc.Sprite.extend({
 	},
 	
 	updateMovement: function() {
-		if( this.right ) {
+		if( this.right == 'right' ) {
 			this.x += this.velocity;
-			if( ( this.x / SCREEN_WIDTH ) > 0.9 ) this.right = false;
+			if( ( this.x / SCREEN_WIDTH ) > 0.9 ) this.right = 'left';
 		}
-		else {
+		else if( this.right == 'left' ) {
 			this.x -= this.velocity;
-			if( ( this.x / SCREEN_WIDTH ) < 0.1 ) this.right = true;
+			if( ( this.x / SCREEN_WIDTH ) < 0.1 ) this.right = 'right';
 		}
+	},
+	
+	setRight: function() {
+		this.right = 'right';
+	},
+	
+	setLeft: function() {
+		this.right = 'left';
 	},
 	
 	setVelocity: function( v ) {

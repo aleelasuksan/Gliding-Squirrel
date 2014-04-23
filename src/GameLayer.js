@@ -12,13 +12,22 @@ var GameLayer = cc.LayerColor.extend({
 		this.platform1 = new Platform( 400, 300 );
 		//this.platform1.setPosition( cc.p( 400, 300 ) );
 		this.blocks.push( this.platform1 );
-		this.addChild(this.platform1);
+		this.addChild( this.platform1 );
+		
 		this.platform2 = new Platform( 400, 50 );
 		//this.platform2.setPosition( cc.p( 400, 50 ) );
 		this.blocks.push( this.platform2 );
-		this.addChild(this.platform2);
+		this.addChild( this.platform2 );
 		
-		this.platform1.setVelocity(2);
+		this.platform3 = new Platform( 400, 450 );
+		this.blocks.push( this.platform3 );
+		this.addChild( this.platform3 );
+		
+		this.platform1.setVelocity(5);
+		this.platform1.setRight();
+		
+		this.platform3.setVelocity(3);
+		this.platform3.setLeft();
 		
 		this.player.setBlocks( this.blocks );
 		
@@ -34,7 +43,8 @@ var GameLayer = cc.LayerColor.extend({
 	update: function() {
 		if( this.player.isGameOver() ) {
 			this.cleanup();
-			//var gameover = cc.LabelTTF.create( "Game Over", "Tahoma", 20 );
+			var con = confirm(' END\nRetry?');
+			if( con ) location.reload();
 		}
 	},
 	
