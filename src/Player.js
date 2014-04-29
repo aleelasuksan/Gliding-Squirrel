@@ -1,5 +1,5 @@
 var SPRITE_WIDTH = 42;
-var SPRITE_HEIGHT = 52;
+var HALF_SPRITE_HEIGHT = 26;
 var SCREEN_HEIGHT = 600;
 
 var Player = cc.Sprite.extend({
@@ -9,7 +9,7 @@ var Player = cc.Sprite.extend({
 		
 		this.x = x;
 		this.y = y;
-		this.vJump = 26;
+		this.vJump = 24;
 		this.g = -1;
 		this.cap = -10;
 		
@@ -17,7 +17,7 @@ var Player = cc.Sprite.extend({
 		this.vx = 0;
 		
 		this.jump = false;
-		this.right = null;
+		this.direction = null;
 				
 		this.ground = null;
 		
@@ -67,7 +67,7 @@ var Player = cc.Sprite.extend({
 					this.vy = 0;
 					this.jump = false;
 					this.vx = 0;
-					this.right = null;
+					this.direction = null;
 				}
 			}
 		}
@@ -91,26 +91,29 @@ var Player = cc.Sprite.extend({
 		if( this.jump ) {
 			this.vy = this.vJump;
 			this.handleXAxis();
-			this.vx/=2;
-			this.y = this.ground.getTopY() + 20 + this.vy;
+			this.vx*=0.5;
+			this.y = this.ground.getTopY() + ( HALF_SPRITE_HEIGHT ) + this.vy;
 			this.ground = null;
+		}
+		else if( this.ground ) {
+			this.y = this.ground.getTopY() + ( HALF_SPRITE_HEIGHT );
 		}
 	},
 	
 	handleXAxis: function() {
 		if( this.ground ) {
 			this.vx = this.ground.velocity;
-			if( this.ground.right == 'right' ) this.right = 'right';
-			else if( this.ground.right == 'left' ) this.right = 'left';
+			if( this.ground.direction == 'right' ) this.direction = 'right';
+			else if( this.ground.direction == 'left' ) this.direction = 'left';
 			this.updateXMovement();
 		}
 	},
 	
 	updateXMovement: function() {
-		if( this.right == 'right' ) {
+		if( this.direction == 'right' ) {
 			this.x += this.vx;
 		}
-		else if( this.right == 'left' ) {
+		else if( this.direction == 'left' ) {
 			this.x -= this.vx;
 		}
 	},
@@ -151,6 +154,6 @@ var Player = cc.Sprite.extend({
 	},
 	
 	isGameOver: function() {
-		return this.y < 0;
+		return this.y + HALF_SPRITE_HEIGHT < 0;
 	}
 });

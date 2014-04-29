@@ -4,30 +4,29 @@ var GameLayer = cc.LayerColor.extend({
         this.setPosition( new cc.Point( 0, 0 ) );
 		
 		
-		this.player = new Player( 400, 200 );
+		this.player = new Player( 400, 100 );
 		this.addChild(this.player);
 		this.player.scheduleUpdate();
+		this.start = false;
 		
 		this.blocks = [];
 		this.platform1 = new Platform( 400, 300 );
-		//this.platform1.setPosition( cc.p( 400, 300 ) );
 		this.blocks.push( this.platform1 );
 		this.addChild( this.platform1 );
 		
 		this.platform2 = new Platform( 400, 50 );
-		//this.platform2.setPosition( cc.p( 400, 50 ) );
 		this.blocks.push( this.platform2 );
 		this.addChild( this.platform2 );
 		
-		this.platform3 = new Platform( 400, 450 );
-		this.blocks.push( this.platform3 );
-		this.addChild( this.platform3 );
+		this.platform4 = new Platform( 400, 550 );
+		this.blocks.push( this.platform4 );
+		this.addChild( this.platform4 );
 		
-		this.platform1.setVelocity(5);
+		this.platform1.setVelocity( 5 );
 		this.platform1.setRight();
 		
-		this.platform3.setVelocity(3);
-		this.platform3.setLeft();
+		this.platform4.setVelocity( 8 );
+		this.platform4.setRight();
 		
 		this.player.setBlocks( this.blocks );
 		
@@ -38,9 +37,15 @@ var GameLayer = cc.LayerColor.extend({
 	
 	onKeyDown: function( e ) {
 		this.player.handleKeyDown( e );
+		this.start = true;
 	},
 	
 	update: function() {
+		if( this.start ) {
+			this.platform1.moveDown();
+			this.platform2.moveDown();
+			this.platform4.moveDown();
+		}
 		if( this.player.isGameOver() ) {
 			this.cleanup();
 			var con = confirm(' END\nRetry?');
@@ -54,26 +59,11 @@ var GameLayer = cc.LayerColor.extend({
 });
 
 var StartScene = cc.Scene.extend({
-    onEnter: function() {
-        this._super();
-        this.layer = new GameLayer();
-        this.layer.init();
-        this.addChild( this.layer );
-    },
-	
-	onKeyDown: function( event ) {
-		this.restartLayer();
+	onEnter: function() {
+		this._super();
+		this.layer = new GameLayer();
+		this.layer.init();
+		this.addChild( this.layer );
 	},
-	
-	onMouseDown: function( event ) {
-		this.restartLayer();
-	},
-	
-	restartLayer: function() {
-		if( this.layer.isOver() ) {
-			this.layer = new GameLayer();
-			this.layer.init();
-		}
-	}
 });
 
