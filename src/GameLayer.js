@@ -10,24 +10,7 @@ var GameLayer = cc.LayerColor.extend({
 		this.start = false;
 		
 		this.blocks = [];
-		this.platform1 = new Platform( 400, 300 );
-		this.blocks.push( this.platform1 );
-		this.addChild( this.platform1 );
-		
-		this.platform2 = new Platform( 400, 50 );
-		this.blocks.push( this.platform2 );
-		this.addChild( this.platform2 );
-		
-		this.platform4 = new Platform( 400, 550 );
-		this.blocks.push( this.platform4 );
-		this.addChild( this.platform4 );
-		
-		this.platform1.setVelocity( 5 );
-		this.platform1.setRight();
-		
-		this.platform4.setVelocity( 8 );
-		this.platform4.setRight();
-		
+		this.createBlocks();
 		this.player.setBlocks( this.blocks );
 		
 		this.setKeyboardEnabled( true );
@@ -44,7 +27,7 @@ var GameLayer = cc.LayerColor.extend({
 		if( this.start ) {
 			this.platform1.moveDown();
 			this.platform2.moveDown();
-			this.platform4.moveDown();
+			this.platform3.moveDown();
 		}
 		if( this.player.isGameOver() ) {
 			this.cleanup();
@@ -55,7 +38,29 @@ var GameLayer = cc.LayerColor.extend({
 	
 	isOver: function() {
 		return this.player.isGameOver();
-	}
+	},
+	
+	createBlocks: function() {
+		this.platform1 = new Platform( 400, 300 );
+		this.blocks.push( this.platform1 );
+		this.addChild( this.platform1 );
+		
+		this.platform2 = new Platform( 400, 50 );
+		this.blocks.push( this.platform2 );
+		this.addChild( this.platform2 );
+		
+		this.platform3 = new Platform( 400, 550 );
+		this.blocks.push( this.platform3 );
+		this.addChild( this.platform3 );
+		
+		//this.platform1.setVelocity( 5 );
+		this.platform1.randVelocity();
+		this.platform1.setLeft();
+		
+		//this.platform4.setVelocity( 8 );
+		this.platform3.randVelocity();
+		this.platform3.Right();
+	},
 });
 
 var StartScene = cc.Scene.extend({

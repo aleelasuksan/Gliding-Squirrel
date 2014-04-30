@@ -1,6 +1,7 @@
 var SPRITE_WIDTH = 60;
 var SPRITE_HEIGHT = 20;
 var SCREEN_WIDTH = 800;
+var SCREEN_HEIGHT = 600;
 
 var Platform = cc.Sprite.extend({
     ctor: function( x, y ) {
@@ -62,8 +63,17 @@ var Platform = cc.Sprite.extend({
 		this.velocity = v;
 	},
 	
+	randVelocity: function() {
+		this.velocity = 1 + Math.random() * 7;
+	},
+	
 	moveDown: function() {
-		this.y-=1;
+		this.y-=0.5;
+		if(this.y<-200) {
+			this.y = SCREEN_HEIGHT;
+			if( this.direction == null ) this.setRight();
+			this.randVelocity();
+		}
 		this.updateSpritePosition();
 	}
 });

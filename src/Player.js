@@ -11,12 +11,12 @@ var Player = cc.Sprite.extend({
 		this.y = y;
 		this.vJump = 24;
 		this.g = -1;
-		this.cap = -10;
 		
 		this.vy = 0;
 		this.vx = 0;
 		
 		this.jump = false;
+		
 		this.direction = null;
 				
 		this.ground = null;
