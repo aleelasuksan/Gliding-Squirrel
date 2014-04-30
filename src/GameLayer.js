@@ -55,11 +55,11 @@ var GameLayer = cc.LayerColor.extend({
 		
 		//this.platform1.setVelocity( 5 );
 		this.platform1.randVelocity();
-		this.platform1.setLeft();
+		this.platform1.startLeft();
 		
 		//this.platform4.setVelocity( 8 );
 		this.platform3.randVelocity();
-		this.platform3.Right();
+		this.platform3.startRight();
 	},
 });
 

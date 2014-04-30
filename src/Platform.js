@@ -51,11 +51,11 @@ var Platform = cc.Sprite.extend({
 		}
 	},
 	
-	setRight: function() {
+	startRight: function() {
 		this.direction = 'right';
 	},
 	
-	setLeft: function() {
+	startLeft: function() {
 		this.direction = 'left';
 	},
 	
@@ -71,7 +71,7 @@ var Platform = cc.Sprite.extend({
 		this.y-=0.5;
 		if(this.y<-200) {
 			this.y = SCREEN_HEIGHT;
-			if( this.direction == null ) this.setRight();
+			if( this.direction == null ) this.startRight();
 			this.randVelocity();
 		}
 		this.updateSpritePosition();
