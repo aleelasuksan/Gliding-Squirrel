@@ -69,9 +69,13 @@ var Platform = cc.Sprite.extend({
 	
 	moveDown: function() {
 		this.y-=0.5;
-		if(this.y<-200) {
+		if(this.y<-150) {
 			this.y = SCREEN_HEIGHT;
-			if( this.direction == null ) this.startRight();
+			if( this.direction == null ) {
+				var rand = Math.floor(1+Math.random*100)%2;
+				if( rand ) this.startRight();
+				else this.startLeft();
+			}
 			this.randVelocity();
 		}
 		this.updateSpritePosition();
