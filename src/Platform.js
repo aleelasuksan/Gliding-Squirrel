@@ -13,6 +13,9 @@ var Platform = cc.Sprite.extend({
 		this.x = x;
 		this.y = y;
 		
+		this.downSpeed = 0.5;
+		this.downInc = 0.002;
+		
 		this.direction = null;
 		this.velocity = 0;
 		this.scheduleUpdate();
@@ -64,11 +67,12 @@ var Platform = cc.Sprite.extend({
 	},
 	
 	randVelocity: function() {
-		this.velocity = 1 + Math.random() * 7;
+		this.velocity = 3 + Math.random() * 5;
 	},
 	
 	moveDown: function() {
-		this.y-=0.5;
+		this.downSpeed+=this.downInc;
+		this.y-=this.downSpeed;
 		if(this.y<-150) {
 			this.y = SCREEN_HEIGHT;
 			if( this.direction == null ) {

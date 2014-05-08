@@ -3,9 +3,17 @@ var GameLayer = cc.LayerColor.extend({
         this._super( new cc.Color4B( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
 		
+		this.background = cc.Sprite.create( 'res/images/bg.png' );
+        this.background.setAnchorPoint( new cc.Point( 0, 0 ) );
+        this.addChild( this.background );
+		
+		this.score = 0;
+		this.scoreLabel = cc.LabelTTF.create( '0', 'Arial', 30);
+		this.scoreLabel.setPosition( cc.p( 700, 500 ) );
+		this.addChild( this.scoreLabel );
 		
 		this.player = new Player( 400, 100 );
-		this.addChild(this.player);
+		this.addChild( this.player );
 		this.player.scheduleUpdate();
 		this.start = false;
 		
@@ -15,6 +23,7 @@ var GameLayer = cc.LayerColor.extend({
 		
 		this.setKeyboardEnabled( true );
 		this.scheduleUpdate();
+		
         return true;
     },
 	
@@ -28,10 +37,12 @@ var GameLayer = cc.LayerColor.extend({
 			this.platform1.moveDown();
 			this.platform2.moveDown();
 			this.platform3.moveDown();
+			this.score+=1;
+			this.scoreLabel.setString( this.score );
 		}
 		if( this.player.isGameOver() ) {
 			this.cleanup();
-			var con = confirm(' END\nRetry?');
+			var con = confirm('Score : '+this.score+'\nRetry?');
 			if( con ) location.reload();
 		}
 	},
